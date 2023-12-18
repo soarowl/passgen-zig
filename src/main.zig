@@ -111,28 +111,32 @@ fn run_generate() !void {
         defer map.deinit();
 
         for (0..config.length) |i| {
-            const b = blk: {
-                while (true) {
-                    const c = if (config.allDigits) rand.intRangeLessThan(u8, '0', '9' + 1) else rand.intRangeLessThan(u8, 33, 127);
-                    if (!map.contains(c)) break :blk c;
+            while (true) {
+                const b = rand.intRangeLessThan(u8, 33, 127);
+                if (!map.contains(b)) {
+                    switch (b) {
+                        '0'...'9' => {
+                            if (config.digits == 0) continue;
+                            d = d + 1;
+                        },
+                        'a'...'z' => {
+                            if (config.lowers == 0) continue;
+                            l = l + 1;
+                        },
+                        'A'...'Z' => {
+                            if (config.uppers == 0) continue;
+                            u = u + 1;
+                        },
+                        else => {
+                            if (config.punctuations == 0) continue;
+                            p = p + 1;
+                        },
+                    }
+                    buffer[i] = b;
+                    try map.put(b, true);
+                    break;
                 }
-            };
-            switch (b) {
-                '0'...'9' => {
-                    d = d + 1;
-                },
-                'a'...'z' => {
-                    l = l + 1;
-                },
-                'A'...'Z' => {
-                    u = u + 1;
-                },
-                else => {
-                    p = p + 1;
-                },
             }
-            buffer[i] = b;
-            try map.put(b, true);
         }
 
         if (config.digits == 0 and d > 0) continue;
