@@ -11,6 +11,7 @@ var config = struct {
     punctuations: u8 = 1,
     uppers: u8 = 1,
     allDigits: bool = false,
+    unique: bool = false,
 }{};
 
 var length = cli.Option{
@@ -49,11 +50,17 @@ var allDigits = cli.Option{
     .short_alias = 'D',
     .value_ref = cli.mkRef(&config.allDigits),
 };
+var unique = cli.Option{
+    .long_name = "unique",
+    .help = "Generate password with unique chars, default true",
+    .short_alias = 'q',
+    .value_ref = cli.mkRef(&config.unique),
+};
 var app = &cli.App{
     .author = "Zhuo Nengwen",
     .command = cli.Command{
         .name = "passgen",
-        .options = &.{ &length, &digits, &lowers, &punctuations, &uppers, &allDigits },
+        .options = &.{ &length, &digits, &lowers, &punctuations, &uppers, &allDigits, &unique },
         .target = cli.CommandTarget{
             .action = cli.CommandAction{ .exec = run_generate },
         },
@@ -113,29 +120,30 @@ fn run_generate() !void {
         for (0..config.length) |i| {
             while (true) {
                 const b = rand.intRangeLessThan(u8, 33, 127);
-                if (!map.contains(b)) {
-                    switch (b) {
-                        '0'...'9' => {
-                            if (config.digits == 0) continue;
-                            d = d + 1;
-                        },
-                        'a'...'z' => {
-                            if (config.lowers == 0) continue;
-                            l = l + 1;
-                        },
-                        'A'...'Z' => {
-                            if (config.uppers == 0) continue;
-                            u = u + 1;
-                        },
-                        else => {
-                            if (config.punctuations == 0) continue;
-                            p = p + 1;
-                        },
-                    }
-                    buffer[i] = b;
-                    try map.put(b, true);
-                    break;
+                if (config.unique and map.contains(b)) continue;
+
+                switch (b) {
+                    '0'...'9' => {
+                        if (config.digits == 0) continue;
+                        d += 1;
+                    },
+                    'a'...'z' => {
+                        if (config.lowers == 0) continue;
+                        l += 1;
+                    },
+                    'A'...'Z' => {
+                        if (config.uppers == 0) continue;
+                        u += 1;
+                    },
+                    else => {
+                        if (config.punctuations == 0) continue;
+                        p += 1;
+                    },
                 }
+
+                buffer[i] = b;
+                if (config.unique) try map.put(b, true);
+                break;
             }
         }
 
