@@ -45,7 +45,7 @@ var uppers = cli.Option{
 };
 var allDigits = cli.Option{
     .long_name = "DIGITS",
-    .help = "Generate digital password",
+    .help = "Generate digital password, default false",
     .short_alias = 'D',
     .value_ref = cli.mkRef(&config.allDigits),
 };
