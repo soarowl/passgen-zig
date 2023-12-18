@@ -97,6 +97,20 @@ fn run_generate() !void {
         std.debug.print("Minimun upper case letters: {} greate than length: {}", .{ config.uppers, config.length });
         return;
     }
+    if (config.unique) {
+        if (config.digits > 10) {
+            std.debug.print("Minimun digits: {} greate than 10", .{config.digits});
+            return;
+        }
+        if (config.lowers > 26) {
+            std.debug.print("Minimun lower case letters: {} greate than 26", .{config.lowers});
+            return;
+        }
+        if (config.uppers > 26) {
+            std.debug.print("Minimun upper case letters: {} greate than 26", .{config.uppers});
+            return;
+        }
+    }
 
     var prng = std.rand.DefaultPrng.init(blk: {
         var seed: u64 = undefined;
