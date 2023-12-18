@@ -1,0 +1,11 @@
+.{
+    .name = "passgen",
+    .version = "0.1.0",
+    .paths = .{"./src"},
+    .dependencies = .{
+        .@"zig-cli" = .{
+            .url = "https://github.com/sam701/zig-cli/archive/refs/tags/0.8.0.tar.gz",
+            .hash = "1220249b6509b36d646a5d2c5da6dfd6fdde7328c67ed9e31eb4f0b30557972ca3e7",
+        },
+    },
+}
