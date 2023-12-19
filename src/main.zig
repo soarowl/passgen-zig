@@ -11,7 +11,7 @@ var config = struct {
     punctuations: u8 = 1,
     uppers: u8 = 1,
     allDigits: bool = false,
-    unique: bool = false,
+    unique: bool = true,
 }{};
 
 var length = cli.Option{
