@@ -4,8 +4,8 @@
     .paths = .{"./src"},
     .dependencies = .{
         .@"zig-cli" = .{
-            .url = "https://github.com/sam701/zig-cli/archive/b6b51117b2dc3eb3898d03ee040b0c5e9021907e.tar.gz",
-            .hash = "1220d17242a1ac65dcf28a38cc22393cd1a0b17370d29d094a51f2214428863e626f",
+            .url = "https://github.com/sam701/zig-cli/archive/e3f673ef43e481144f98f98f6eba6fdf004c05af.tar.gz",
+            .hash = "12209bf5ef5ea0a5832797fabe65efadc63deb5af3178309ecf7b03a67aabfdbbfae",
         },
     },
 }
