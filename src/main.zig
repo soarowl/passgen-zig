@@ -126,7 +126,7 @@ fn run_generate() !void {
         var l: u8 = 0;
         var p: u8 = 0;
         var u: u8 = 0;
-        var map = std.AutoHashMap(u8, bool).init(
+        var map = std.AutoHashMap(u8, void).init(
             allocator,
         );
         defer map.deinit();
@@ -156,7 +156,7 @@ fn run_generate() !void {
                 }
 
                 buffer[i] = b;
-                if (config.unique) try map.put(b, true);
+                if (config.unique) try map.put(b, {});
                 break;
             }
         }
