@@ -27,8 +27,8 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
         .single_threaded = true,
     });
-    exe.addModule("zig-cli", zigcli_mod);
-    exe.strip = true;
+    exe.root_module.addImport("zig-cli", zigcli_mod);
+    exe.root_module.strip = true;
 
     // This declares intent for the executable to be installed into the
     // standard location when the user invokes the "install" step (the default
